@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getMoviDetails } from 'api/IPI';
 import styled from 'styled-components';
+import { useContext } from 'react';
+import { AuthContext } from 'hoc/AuthProvider';
 
 export const SingleMovi = () => {
+  const { getId } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [details, setDetails] = useState({});
   const { id } = useParams();
   useEffect(() => {
+    getId(id);
     getMoviDetails(id)
       .then(res => setDetails(res.data))
       .catch(error => {
         console.log(error);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-  console.log(details);
+
   const { poster_path, title, vote_average, overview, genres, release_date } =
     details;
   const src = `https://image.tmdb.org/t/p/w500${poster_path}`;
   const date = new Date(release_date);
   return (
     <div>
-      <button> Go back </button>
+      <button onClick={() => navigate(-1)}> Go back </button>
       <CardBox>
         <ImgBox>
           <img src={src} alt="" />
@@ -47,10 +53,10 @@ export const SingleMovi = () => {
         <h3>Additional information</h3>
         <ul>
           <li>
-            <Link>Cast</Link>
+            <Link to={`/movies/${id}/cast`}>Cast</Link>
           </li>
           <li>
-            <Link>Reviews</Link>
+            <Link to={`/movies/${id}/reviews`}>Reviews</Link>
           </li>
         </ul>
       </InfoBox>
@@ -66,6 +72,7 @@ const CardBox = styled.div`
 `;
 const ImgBox = styled.div`
   height: 500px;
+  box-shadow: 3px 3px 10px 5px rgba(0, 0, 0, 0.3);
   img {
     height: 100%;
   }

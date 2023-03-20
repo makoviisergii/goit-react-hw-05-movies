@@ -1,20 +1,11 @@
-// import React, { createContext, useState } from 'react'
+import React, { createContext, useState } from 'react';
 
-// export const Context = createContext(null)
+export const AuthContext = createContext(null);
 
-// export const AuthProvider = ({ children }) => {
-// 	const [user, setUser] = useState(null)
+export const AuthProvider = ({ children }) => {
+  const [moviId, setMoviId] = useState(22);
+  const getId = id => setMoviId(id);
+  const value = { moviId, getId };
 
-// 	const login = (userName, cb) => {
-// 		setUser(userName)
-// 		cb()
-// 	}
-// 	const logout = cb => {
-// 		setUser(null)
-// 		cb()
-// 	}
-
-// 	const value = { user, login, logout }
-
-// 	return <Context.Provider value={value}>{children}</Context.Provider>
-// }
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};

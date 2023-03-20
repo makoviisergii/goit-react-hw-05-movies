@@ -12,7 +12,7 @@ export const NavBar = () => {
 };
 
 const HederBox = styled.header`
-  background-color: #eff;
+  background-color: #f3f9f9;
   justify-content: start;
   gap: 20px;
   font-size: 32px;
